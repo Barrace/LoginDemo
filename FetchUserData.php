@@ -51,4 +51,46 @@
 
     //Close Connection
     mysqli_close($con);
+    
+    
+    /*-----AJ's code starts here. PDO Objects ftw.-----
+    
+    function passwordMatch ($lastName, $pass)
+    {
+	//enter your info here
+        $db_hostname = 'localhost';
+        $db_database = 'XXXXXXXx';
+        $db_username = 'XXXXXXXX';
+        $db_password = 'XXXXXXXx';
+	
+	//connect to Database
+        $db = new PDO("mysql:dbname=" . $db_database . ";host=localhost", $db_username, $db_password)
+        or die("could not connect to DB");
+
+	//dont know if you need this but just for safety
+        if($lastName == "" || $pass == "")
+            return false;
+
+	//SQL
+        $query = $db->prepare(' SELECT *
+                                FROM `user`
+                                WHERE `username` = ?
+                                AND `password` = ? ');
+
+	//fill in question marks
+        $query->execute(array($lastName, str_rot13($pass)));
+        
+        //rows is always an array of results. If only one result, $rows[0].
+        $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+
+	//if it returned a result, it was a match
+        if(sizeof($rows) > 0)
+            return true;
+        else
+            return false;
+
+    }
+    
+    */
+    
 ?>
